@@ -82,7 +82,7 @@
 
           <v-btn color="blue darken-1" flat @click="clear">Clear</v-btn>
           <v-btn color="blue darken-1" flat @click="clear" @click.native="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat :disabled="!validat" v-on:click="userAdd" @click.native="dialog = false">Save</v-btn>
+          <v-btn color="blue darken-1" flat :disabled="!validat" v-on:click="userAdd" @click.native="dialog = false" @click="clear">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog> 
