@@ -7,19 +7,6 @@
         <nuxt-link :to="'/' + id">
         <h2>{{ user_name }}</h2>
         </nuxt-link>
-        <!-- <h2>
-        <tasks
-            v-for="task in tasks"
-            :key="task.id"
-            :id="task.id"
-            :title="task.title"
-            :description="task.description"
-            :time_creation="task.time_creation"
-            :time_completion="task.time_completion"
-            :status="task.status"
-        />
-        
-        </h2> -->
   <v-data-table
     :headers="headers"
     :items="tasks"
@@ -48,9 +35,10 @@
             ></v-text-field>
           </v-edit-dialog>
         </td>
-        <!-- <td class="text-xs-right">{{ props.item.title }}</td> -->
         <td class="text-xs-right">{{ props.item.time_creation }}</td>
         <td class="text-xs-right">{{ props.item.time_completion }}</td>
+        <!-- <td class="text-xs-right">{{ props.item.time_completion }}</td> -->
+        <td class="text-xs-right"><v-btn v-on:click="acomplish">done</v-btn></td>
       </tr>
 
     </template>
@@ -66,7 +54,7 @@
     </template>
   </v-data-table>
     <v-dialog v-model="dialog" persistent max-width="500px">
-        <v-btn slot="activator" color="primary" dark>Open Dialog</v-btn>
+        <v-btn slot="activator" color="primary" dark>Create new task</v-btn>
               <v-card>
         <v-card-title>
           <span class="headline">User Profile</span>
@@ -93,7 +81,7 @@
           <v-spacer></v-spacer>
 
           <v-btn color="blue darken-1" flat @click="clear">Clear</v-btn>
-          <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" flat @click="clear" @click.native="dialog = false">Close</v-btn>
           <v-btn color="blue darken-1" flat :disabled="!validat" v-on:click="userAdd" @click.native="dialog = false">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -104,7 +92,7 @@
 </template>
 
 <script>
-import tasks from '@/components/Tasks'
+
 
 export default {
     data () {
@@ -132,11 +120,12 @@ export default {
         ],
         }
     },
-    components: {
-        tasks
-    },
+
     props: ['id', 'user_name', 'tasks'],
     methods: {
+    acomplish: function(event) {
+        this.tasks[0].status = false
+    },
     userAdd: function(event){
         this.tasks.push({
         title:this.tasks.title,
