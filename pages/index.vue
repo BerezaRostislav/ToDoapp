@@ -1,7 +1,7 @@
 <template>
   <section class="slabcards">
     <todo
-      v-for="slab in filteredPostsByAddress"
+      v-for="slab in slabs"
       :key="slab.id"
       :user_name="slab.user_name"
       :id="slab.id"
@@ -76,22 +76,7 @@ export default {
     }
   },
   computed: {
-    filteredPostsByAddress: function() {
-      this.newslabs = this.slabs.slice(0)
-      return this.newslabs.filter((post) => {
-        return post.tasks = post.tasks.filter((item) => {
-          return item.status === this.filterStatus
-        });
-      });
-    },
-    // filteredSlabs () {
-    // 	return this.slabs.filter(slab => {
-    //   	slab.tasks =  slab.tasks.map(task => {
-    //     	if (task.status === this.filterStatus)
-    //       	return task
-    //     }).filter(task => task)      
-  	// 	})
-  	// }
+
   },
   
 }

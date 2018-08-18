@@ -2,7 +2,7 @@
   <v-app light>
     <v-toolbar>
       <nuxt-link :to="'/'">
-      <v-toolbar-title>ToDo</v-toolbar-title>
+        <v-toolbar-title>ToDo</v-toolbar-title>
       </nuxt-link>
       <v-spacer/> 
       <v-autocomplete
