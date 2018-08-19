@@ -20,13 +20,36 @@
       ></v-autocomplete>
       <v-spacer/>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat>Registrate</v-btn>
-        <v-btn flat>Login</v-btn>
+        <v-btn flat @click.stop="dialog = true" >Registrate</v-btn>
+      <v-dialog v-model="dialog" persistent max-width="500px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">Creating new User</span>
+          </v-card-title>
+          <v-card-text>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="username"
+                :rules="nameRules"
+                :counter="10"
+                label="Title"
+                required
+              />
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="clear">Clear</v-btn>
+            <v-btn color="blue darken-1" flat @click="clear" @click.native="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" flat :disabled="!validat" v-on:click="userAdd" @click.native="dialog = false" @click="clear">Save</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog> 
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <v-container>
-        <nuxt />
+        <nuxt/>
       </v-container>
     </v-content>
     <v-footer>
@@ -40,76 +63,21 @@
 import Todo from '@/components/Todo.vue'
 
   export default {
-    components: {
-      Todo
-    },
+
     data () {
       return {
+        valid: true,
+        username: null,
+        nameRules: [
+            v => !!v || 'Name is required',
+            v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+        ],
+        dialog: false,
         loading: false,
         items: [],
         search: null,
         select: null,
-        states: [
-          'Alabama',
-          'Alaska',
-          'American Samoa',
-          'Arizona',
-          'Arkansas',
-          'California',
-          'Colorado',
-          'Connecticut',
-          'Delaware',
-          'District of Columbia',
-          'Federated States of Micronesia',
-          'Florida',
-          'Georgia',
-          'Guam',
-          'Hawaii',
-          'Idaho',
-          'Illinois',
-          'Indiana',
-          'Iowa',
-          'Kansas',
-          'Kentucky',
-          'Louisiana',
-          'Maine',
-          'Marshall Islands',
-          'Maryland',
-          'Massachusetts',
-          'Michigan',
-          'Minnesota',
-          'Mississippi',
-          'Missouri',
-          'Montana',
-          'Nebraska',
-          'Nevada',
-          'New Hampshire',
-          'New Jersey',
-          'New Mexico',
-          'New York',
-          'North Carolina',
-          'North Dakota',
-          'Northern Mariana Islands',
-          'Ohio',
-          'Oklahoma',
-          'Oregon',
-          'Palau',
-          'Pennsylvania',
-          'Puerto Rico',
-          'Rhode Island',
-          'South Carolina',
-          'South Dakota',
-          'Tennessee',
-          'Texas',
-          'Utah',
-          'Vermont',
-          'Virgin Island',
-          'Virginia',
-          'Washington',
-          'West Virginia',
-          'Wisconsin',
-          'Wyoming'
-        ]
+        users: this.$store.state.basedata
       }
     },
     watch: {
@@ -117,19 +85,36 @@ import Todo from '@/components/Todo.vue'
         val && val !== this.select && this.querySelections(val)
       }
     },
-    methods: {
-      querySelections (v) {
-        this.loading = true
-        // Simulated ajax query
-        setTimeout(() => {
-          this.items = this.states.filter(e => {
-            return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-          })
-          this.loading = false
-        }, 500)
+    computed: {
+    validat () {
+      if (this.username) {
+        return true
       }
     }
+  },
+  methods: {
+  clear () {
+    this.$refs.form.reset()
+  },
+  userAdd: function(event){
+    this.users.push({
+    user_name: this.username,
+    id: '3',
+    tasks: []
+    });
+  },
+    querySelections (v) {
+      this.loading = true
+      // Simulated ajax query
+      setTimeout(() => {
+        this.items = this.states.filter(e => {
+          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        })
+        this.loading = false
+      }, 500)
+    }
   }
+}
 </script>
 
 <style>
