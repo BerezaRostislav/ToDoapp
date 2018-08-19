@@ -5,7 +5,7 @@ const createStore = () => {
     state: {
         basedata: [
             {
-              id: "1",
+              id: "0",
               user_name: "User 1",
               tasks: [
                 {
@@ -34,7 +34,7 @@ const createStore = () => {
     
             },
             {
-              id: "2",
+              id: "1",
               user_name: "User 2",
               tasks: [
                 {

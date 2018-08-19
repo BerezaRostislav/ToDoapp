@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import slabs from "@/pages/index.vue"
-
 export default {
     data () {
     return {

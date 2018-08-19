@@ -1,50 +1,67 @@
 <template>
   <article class="slabcard">
-    <div style="text-align: center;">
-      <nuxt-link :to="'/' + id">
-        <h2>{{ user_name }}</h2>
-      </nuxt-link>
-    <v-data-table
-      :headers="headers"
-      :items="tasks"
-      item-key="title"
-      expand  
-    >
-      <template slot="items" slot-scope="props">
-        <tr @click="props.expanded = !props.expanded">
-          <td class="text-xs-right">{{ props.item.title }}</td>
-          <td class="text-xs-right">{{ props.item.time_creation }}</td>
-          <td class="text-xs-right">{{ props.item.time_completion }}</td>
-          <td class="text-xs-right" @click="props.expanded = !props.expanded">
-            <v-btn v-if="props.item.status === true" v-on:click="acomplish(props.item)">done</v-btn>
-            <v-btn v-else>Completed</v-btn>
-            <v-icon
-              small
-              @click="deleteItem(props.item)"
-            >
-            delete
-            </v-icon>
-            <v-icon
-              small
-              class="mr-2"
-              @click="editItem(props.item)"
-            >
-            edit
-            </v-icon>
-          </td>
-        </tr>
-      </template>
-      <template slot="expand" slot-scope="props">
-        <v-card flat>
-          <v-card-text>{{ props.item.description}}</v-card-text>
-        </v-card>
-      </template>
-      <template slot="no-data">
-        <v-alert :value="true" color="orange" icon="warning">
-          Sorry, no tasks created :(
-        </v-alert>
-      </template>
-    </v-data-table>
+    <v-container grid-list-md text-xs-center>
+      <v-layout style="background-color:white;" align-space-around justify-center row fill-height>
+        <v-flex  xs11>
+          <nuxt-link :to="'/' + id">
+            <span style="margin-left: 60px;font-size:30px">{{ user_name }}</span>
+          </nuxt-link>
+        </v-flex>
+        <v-flex xs1 style="margin-top:8px"> 
+          <v-icon
+            medium
+            @click="deleteUser(id)"
+          >
+          delete
+          </v-icon>
+        </v-flex>
+      </v-layout>
+      <v-layout align-space-around justify-center column>
+      <v-flex>
+        
+        <v-data-table
+          :headers="headers"
+          :items="tasks"
+          item-key="title"
+          expand  
+        >
+          <template slot="items" slot-scope="props">
+            <tr @click="props.expanded = !props.expanded">
+              <td class="text-xs-right">{{ props.item.title }}</td>
+              <td class="text-xs-right">{{ props.item.time_creation }}</td>
+              <td class="text-xs-right">{{ props.item.time_completion }}</td>
+              <td class="text-xs-right" @click="props.expanded = !props.expanded">
+                <v-btn v-if="props.item.status === true" v-on:click="acomplish(props.item)">done</v-btn>
+                <v-btn v-else>Completed</v-btn>
+                <v-icon
+                  small
+                  @click="deleteItem(props.item)"
+                >
+                delete
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(props.item)"
+                >
+                edit
+                </v-icon>
+              </td>
+            </tr>
+          </template>
+          <template slot="expand" slot-scope="props">
+            <v-card flat>
+              <v-card-text>{{ props.item.description}}</v-card-text>
+            </v-card>
+          </template>
+          <template slot="no-data">
+            <v-alert :value="true" color="orange" icon="warning">
+              Sorry, no tasks created :(
+            </v-alert>
+          </template>
+        </v-data-table>
+      </v-flex>
+      <v-flex>
       <v-dialog v-model="dialog" persistent max-width="500px">
       <v-btn slot="activator" color="primary" dark>Create new task</v-btn>
         <v-card>
@@ -90,7 +107,9 @@
           </v-card-actions>
         </v-card>
       </v-dialog> 
-    </div>
+      </v-flex>
+      </v-layout>
+    </v-container>
   </article>
 </template>
 
@@ -100,6 +119,7 @@
 export default {
   data () {
     return {
+      slabs: this.$store.state.basedata,
       editedIndex: -1,
       editedItem: {},
       valid: true,
@@ -146,7 +166,11 @@ export default {
     },
     deleteItem (item) {
       const index = this.tasks.indexOf(item)
-      confirm('Are you sure you want to delete this item?') && this.tasks.splice(index, 1)
+      confirm('Are you sure you want to delete this task?') && this.tasks.splice(index, 1)
+    },
+    deleteUser (id) {
+      const index = this.slabs.findIndex((item) => item.id === id);
+      confirm('Are you sure you want to delete this user?') && this.slabs.splice(index, 1)
     },
     taskAdd: function(event){
       this.tasks.push({
@@ -191,11 +215,5 @@ export default {
 <style scoped>
 
 
-.slabcard{
-    background-color: white;
-    display: flex;
-    height: 50px;
-    margin-bottom: 400px;
-}
 
 </style>

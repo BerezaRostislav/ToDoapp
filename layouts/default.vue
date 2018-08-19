@@ -20,7 +20,7 @@
       ></v-autocomplete>
       <v-spacer/>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn flat @click.stop="dialog = true" >Registrate</v-btn>
+        <v-btn flat @click.stop="dialog = true" >Create User</v-btn>
       <v-dialog v-model="dialog" persistent max-width="500px">
         <v-card>
           <v-card-title>
@@ -32,7 +32,7 @@
                 v-model="username"
                 :rules="nameRules"
                 :counter="10"
-                label="Title"
+                label="User name"
                 required
               />
             </v-form>
