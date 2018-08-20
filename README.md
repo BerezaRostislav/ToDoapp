@@ -1,6 +1,6 @@
 # ToDo
 
-[Demo](wry-umbrella.surge.sh)
+[Demo](http://wry-umbrella.surge.sh/)
 
 > Test project for Web100
 
