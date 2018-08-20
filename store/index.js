@@ -56,6 +56,11 @@ const createStore = () => {
             }
           ]
     },
+    mutations: {
+      loadbasedata (state, basedata) {
+        state.basedata = basedata
+      }
+    }
   })
 }
 

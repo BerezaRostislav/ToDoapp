@@ -5,20 +5,6 @@
         <v-toolbar-title>ToDo</v-toolbar-title>
       </nuxt-link>
       <v-spacer/> 
-      <v-autocomplete
-        :loading="loading"
-        :items="items"
-        :search-input.sync="search"
-        v-model="select"
-        cache-items
-        class="mx-3"
-        flat
-        hide-no-data
-        hide-details
-        label="Which user you looking for?"
-        solo-inverted
-      ></v-autocomplete>
-      <v-spacer/>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn flat @click.stop="dialog = true" >Create User</v-btn>
       <v-dialog v-model="dialog" persistent max-width="500px">
@@ -74,15 +60,9 @@ import Todo from '@/components/Todo.vue'
         ],
         dialog: false,
         loading: false,
-        items: [],
-        search: null,
+        search: "",
         select: null,
         users: this.$store.state.basedata
-      }
-    },
-    watch: {
-      search (val) {
-        val && val !== this.select && this.querySelections(val)
       }
     },
     computed: {
@@ -90,7 +70,7 @@ import Todo from '@/components/Todo.vue'
       if (this.username) {
         return true
       }
-    }
+    }  
   },
   methods: {
   clear () {
