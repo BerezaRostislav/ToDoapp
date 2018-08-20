@@ -96,14 +96,22 @@
       <v-dialog v-model="dialogedit" persistent max-width="500px">
         <v-card>
           <v-card-title>
-            <span class="headline">User Profile edit</span>
+            <span class="headline">Edit task</span>
           </v-card-title>
-
+          <v-flex xs12 sm6 md4>
+            <v-text-field v-model="editedItem.id" label="id"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md4>
+            <v-text-field v-model="editedItem.title" label="title"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6 md4>
+            <v-text-field v-model="editedItem.description" label="description"></v-text-field>
+          </v-flex>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click="clear">Clear</v-btn>
             <v-btn color="blue darken-1" flat @click="clear" @click.native="dialogedit = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat :disabled="!validat" v-on:click="taskAdd" @click.native="dialogedit = false" @click="clear">Save</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="savetask" >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog> 
@@ -121,7 +129,6 @@ export default {
     return {
       slabs: this.$store.state.basedata,
       editedIndex: -1,
-      editedItem: {},
       valid: true,
       nameRules: [
           v => !!v || 'Name is required',
@@ -149,7 +156,12 @@ export default {
           text: 'time of completion', 
           value: 'time_completion' 
         },
-      ]
+      ],
+      editedItem: {
+        id: '',
+        title: "",
+        description: "",
+      },
     }
   },
   props: ['id', 'user_name', 'tasks'],
@@ -180,23 +192,13 @@ export default {
       time_creation: new Date().toLocaleString()
       });
     },
-    save () {
-      this.snack = true
-      this.snackColor = 'success'
-      this.snackText = 'Data saved'
-    },
-    cancel () {
-      this.snack = true
-      this.snackColor = 'error'
-      this.snackText = 'Canceled'
-    },
-    open () {
-      this.snack = true
-      this.snackColor = 'info'
-      this.snackText = 'Dialog opened'
-    },
-    close () {
-      console.log('Dialog closed')
+    savetask () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.tasks[this.editedIndex], this.editedItem)
+      } else {
+        this.tasks.push(this.editedItem)
+      }
+      this.dialogedit = false
     },
     clear () {
       this.$refs.form.reset()
